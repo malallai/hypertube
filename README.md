@@ -1,24 +1,23 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Fast setup :
 
-Things you may want to cover:
+`gem install figaro`
 
-* Ruby version
+`bundle exec figaro install`
 
-* System dependencies
+Next edit `config/application.yml` and add this default env variables :
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`HYPERTUBE_DATABASE_USERNAME: user`
+`HYPERTUBE_DATABASE_PASSWORD: password`
+`HYPERTUBE_DATABASE_HOST: db`
+`HYPERTUBE_DISCORD_ID: 'your key here'`
+`HYPERTUBE_DISCORD_SECRET: 'your key here'`
+`HYPERTUBE_MARVIN_ID: 'your key here'`
+`HYPERTUBE_MARVIN_SECRET: 'your key here'`
+`THEMOVIEDB_KEY: 'your key here'`
+`QBIT_HOST: 'http://qbit'`
+`QBIT_PORT: '6880'`
+`QBIT_USER: 'admin'`
+`QBIT_PASS: 'adminadmin'`
+`STORED_PATH: '/downloads'`

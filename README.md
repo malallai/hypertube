@@ -21,3 +21,11 @@ Next edit `config/application.yml` and add this default env variables :
 `QBIT_USER: 'admin'`
 `QBIT_PASS: 'adminadmin'`
 `STORED_PATH: '/downloads'`
+
+To start hypertube :
+
+`make pull` and then `make up`
+
+To restart `make re`
+
+You can read logs with `make logs`

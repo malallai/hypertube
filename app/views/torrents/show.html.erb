@@ -1,0 +1,30 @@
+<div class="page-header">
+  <%= link_to torrents_path, class: 'btn btn-default' do %>
+    All Torrents
+  <% end %>
+  <%= link_to edit_torrent_path(@torrent), class: 'btn btn-primary' do %>
+    Edit
+  <% end %>
+  <h1>Show torrent</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Movie:</dt>
+  <dd><%= @torrent.movie %></dd>
+
+  <dt>Source:</dt>
+  <dd><%= @torrent.source %></dd>
+
+  <dt>Magnet:</dt>
+  <dd><%= @torrent.magnet %></dd>
+
+  <dt>Size:</dt>
+  <dd><%= @torrent.size %></dd>
+
+  <dt>Stored:</dt>
+  <dd><%= @torrent.stored %></dd>
+
+  <dt>Stored name:</dt>
+  <dd><%= @torrent.stored_name %></dd>
+
+</dl>

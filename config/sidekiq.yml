@@ -1,0 +1,10 @@
+:schedule:
+  torrent_remover:
+    every: '1h'
+    class: TorrentRemoverWorker
+  refresh_qbt:
+    every: '30m'
+    class: RefreshQbtWorker
+:queues:
+  - default
+  - converter

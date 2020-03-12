@@ -1,0 +1,15 @@
+<dl class="dl-horizontal">
+  <dd>
+    <% if @account.avatar_attachment %>
+      <%= image_tag @account.avatar, class: "rounded account-avatar" %>
+    <% else %>
+      <%= image_tag gravatar_image_url(@account.email, size: 40), class: "rounded account-avatar" %>
+    <% end %>
+  </dd>
+
+  <dt><%= t('account.fullname') %> :</dt>
+  <dd><%= "#{@account.last_name} #{@account.first_name}"%></dd>
+  <dt><%= t('account.username') %> :</dt>
+  <dd><%= @account.username %></dd>
+
+</dl>

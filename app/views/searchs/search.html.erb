@@ -1,0 +1,49 @@
+<% if @size > 0 && !@movies.empty? %>
+  <% @movies.each do |movie| %>
+    <% details = movie[:details] %>
+    <% unless details.nil? %>
+      <% stored = Movie.find_by_imdb_code(movie[:imdb_code]) %>
+      <a class="movie" href="/movies/<%= movie[:imdb_code] %>">
+        <div>
+          <% unless details[:details]['poster_path'].nil? %>
+            <%= image_tag('https://image.tmdb.org/t/p/w500/' + details[:details]['poster_path'], style: "width:100%; heigth: auto") %>
+          <% end %>
+        </div>
+
+        <% if stored.nil? || !current_user.watched_movie.exists?(:movie => stored.id) %>
+          <div class="watched-tag">
+            <div class="watched-tag-transform"></div>
+          </div>
+        <% end %>
+
+        <div class="movie-detail">
+          <div class="movie-detail-container">
+            <div class="detail-card">
+              <div class="title">
+                <span><%= details[:details]['title'] %></span>
+              </div>
+              <div class="d-flex d-inline-flex">
+                <div class="rating mr-3">
+                  <span><%= t('movie.rating') %></span>
+                  <span><%= details[:details]['vote_average'] %></span>
+                </div>
+                <div class="year">
+                  <span><%= t('movie.year') %></span>
+                  <span><%= movie[:year] %></span>
+                </div>
+              </div>
+              <div class="genres">
+                <span><%= t('movie.genre') %></span>
+                <span><%= movie[:genres].join(', ') %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="no-movies">
+    <span><%= t('movie.no_movies') %></span>
+  </div>
+<% end %>

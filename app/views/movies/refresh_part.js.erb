@@ -1,0 +1,5 @@
+dlbar = document.getElementById("dlbar-<%= torrent.id %>");
+if (dlbar) dlbar.innerHTML = "<%= j(render 'dlbar', title: title, torrent: torrent) %>";
+
+playbtn = document.getElementById("playbtn-<%= torrent.id %>");
+if (playbtn) playbtn.innerHTML = "<%= j(render 'playbtn', torrent: torrent) %>";

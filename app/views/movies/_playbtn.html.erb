@@ -1,0 +1,5 @@
+<% if torrent.ready %>
+  <%= link_to stream_path(torrent[:id]), class: 'torrent-link icon d-flex' do %>
+    <span class="d-flex flex-row">Play</span>
+  <% end %>
+<% end %>

@@ -1,0 +1,4 @@
+web: bundle exec rails server -b 0.0.0.0
+worker: bundle exec bin/sidekiq
+webpack: bundle exec bin/webpack-dev-server
+mkv: node stream.js

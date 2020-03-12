@@ -1,0 +1,14 @@
+<% @movie.comments.reverse_each do |comment| %>
+  <div class="card mb-3">
+    <div class="card-header">
+      <span><%= link_to comment.user.username, account_url(comment.user) %></span>
+      <small class="float-right"><span title="<%= comment.created_at.strftime('%d/%m/%Y %H:%M') %>">
+        <span class="iconify" data-icon="ion-md-time" data-inline="false"></span>
+        <%= time_ago_in_words(comment.created_at, include_seconds: true) %> <%= t('datetime.ago') %>
+      </span></small>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><%= comment.comment %></p>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,3 @@
+<span class="mr-auto"><%= title %></span>
+<span class=""><%= "#{torrent.progress.round(2).to_s + '%' if torrent[:stored]} #{torrent['quality']} #{Humanize::Byte.new(torrent[:size]).to_g.value.round(2)} G" %></span>
+<div class="stored" style="width: <%= torrent.progress %>%"></div>

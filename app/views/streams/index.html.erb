@@ -1,0 +1,83 @@
+<div class="d-flex w-100 mb-3 bb-white">
+  <div class="big-title">
+    <span><%= @result[:details]['title'] %></span>
+  </div>
+</div>
+<div class="video-container">
+  <video controls data-turbolinks-permanent id="stream_video" autoplay>
+    <% if @movie_file['.mp4'] %>
+      <source src="<%= ENV['STORED_PATH'] %>/<%= @movie_file %>" type="video/mp4">
+    <% else %>
+      <source src="http://<%=u "#{ENV['CONVERT_HOST']}" %>:6060/stream?path=<%=u "#{ENV['STORED_PATH']}/#{@movie_file}" %>">
+    <% end %>
+    <% unless @srts.nil? %>
+      <% @srts.each do |srt| %>
+        <% if srt.stored %>
+          <track label="<%= srt[:lang] %>" kind="subtitles" srclang="<%= srt[:lang] %>" src="<%= srt[:stored_path] %>" default>
+        <% end %>
+      <% end %>
+    <% end %>
+  </video>
+</div>
+<div class="ml-3 d-flex flex-column w-100">
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column mr-auto">
+      <div class="">
+        <dt><%= t('movie.show.title') %></dt>
+        <dd><%= @result[:details]['title'] %></dd>
+      </div>
+
+      <div class="">
+        <dt><%= t('movie.show.gender') %></dt>
+        <dd class="text-justify"><%= @result[:details]['genres'].map{|genre| genre['name']}.uniq.join(', ') %></dd>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column mr-auto">
+      <div class="">
+        <dt><%= t('movie.show.release_date') %></dt>
+        <dd><%= @result[:details]['release_date'] %></dd>
+      </div>
+
+      <div class="">
+        <dt><%= t('movie.show.rate') %></dt>
+        <dd><%= @result[:details]['vote_average'] %></dd>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100">
+    <dt><%= t('movie.show.description') %></dt>
+    <dd class="text-justify"><%= @result[:details]['overview'] %></dd>
+  </div>
+
+  <div class="w-100">
+    <dt><%= t('movie.show.cast') %></dt>
+    <dd class="text-justify"><%= @result[:cast][0..5].map{|cast| cast['name']}.uniq.join(', ') %></dd>
+  </div>
+
+  <div class="w-100">
+    <dt><%= t('movie.show.crew') %></dt>
+    <dd class="text-justify"><%= @result[:crew][0..5].map{|crew| crew['name']}.uniq.join(', ') %></dd>
+  </div>
+</div>
+<div class="comments-body w-100 mt-3">
+  <div class="comment-title mb-3">
+    <span><%= t('stream.comment.title') %></span>
+  </div>
+  <div class="md-form mt-4 mb-4 comment-form">
+    <%= form_with id: 'send_comment', data: { type: :json }, local: true, method: :get do |f |%>
+      <div class="d-flex flex-row">
+        <%= hidden_field_tag 'movie', @movie.id %>
+        <%= f.text_field :comment, autofocus: true, placeholder: t('stream.comment.text'), class: 'form-control mr-3', :autocomplete => :off %>
+        <%= f.submit t('stream.comment.submit'), class: "btn btn-primary btn-block col-2", data: { disable_with: false } %>
+      </div>
+    <% end %>
+  </div>
+
+  <% unless @comments.nil? %>
+    <div class="comments" id="comments_container">
+      <%= render :file => 'comments/show' %>
+    </div>
+  <% end %>
+</div>

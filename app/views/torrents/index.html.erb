@@ -1,0 +1,53 @@
+
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Torrents</h1>
+  </div>
+
+  <div class="col-sm-6 text-right">
+  <%= link_to new_torrent_path, class: 'btn btn-primary' do %>
+    Add New Torrent
+  <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+    
+
+            <th>Movie</th>
+            <th>Source</th>
+            <th>Magnet</th>
+            <th>Size</th>
+            <th>Stored</th>
+            <th>Stored name</th>
+            
+          <th></th>
+        
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @torrents.each do |torrent| %>
+        <%= content_tag :tr, id: dom_id(torrent), class: dom_class(torrent) do %>
+          
+
+                      <td><%= torrent.movie %></td>
+                      <td><%= torrent.source %></td>
+                      <td><%= torrent.magnet %></td>
+                      <td><%= torrent.size %></td>
+                      <td><%= torrent.stored %></td>
+                      <td><%= torrent.stored_name %></td>
+          
+          
+            <td><%= link_to 'Show', torrent %></td>
+          
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,96 @@
+<div class="d-flex movie-show">
+  <div class="movie-poster">
+    <div class="movie-img">
+      <%= image_tag (@result[:details]['poster_path'] ? ('https://image.tmdb.org/t/p/w500/' + @result[:details]['poster_path']) : '') %>
+    </div>
+    <% unless current_user.watched_movie.exists?(:movie => @movie.id) %>
+      <div class="watched-tag">
+        <div class="watched-tag-transform"></div>
+      </div>
+    <% end %>
+  </div>
+  <div class="ml-3 d-flex flex-column w-100">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column mr-auto">
+        <div class="">
+          <dt><%= t('movie.show.title') %></dt>
+          <dd><%= @result[:details]['title'] %></dd>
+        </div>
+
+        <div class="">
+          <dt><%= t('movie.show.genres') %></dt>
+          <dd class="text-justify"><%= @result[:details]['genres'].map{|genre| genre['name']}.uniq.join(', ') %></dd>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column mr-auto">
+        <div class="">
+          <dt><%= t('movie.show.release_date') %></dt>
+          <dd><%= @result[:details]['release_date'] %></dd>
+        </div>
+
+        <div class="">
+          <dt><%= t('movie.show.rate') %></dt>
+          <dd><%= @result[:details]['vote_average'] %></dd>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100">
+      <dt><%= t('movie.show.description') %></dt>
+      <dd class="text-justify"><%= @result[:details]['overview'] %></dd>
+    </div>
+
+    <div class="w-100">
+      <dt><%= t('movie.show.cast') %></dt>
+      <dd class="text-justify"><%= @result[:cast][0..5].map{|cast| cast['name']}.uniq.join(', ') %></dd>
+    </div>
+
+    <div class="w-100">
+      <dt><%= t('movie.show.crew') %></dt>
+      <dd class="text-justify"><%= @result[:crew][0..5].map{|crew| crew['name']}.uniq.join(', ') %></dd>
+    </div>
+
+    <div class="w-100">
+      <dt><%= t('movie.available_torrents') %></dt>
+      <% if @sorted_torrents[:yts].size > 0 %>
+        <div class="w100 torrent-source">
+          <dt>YTS</dt>
+          <% @sorted_torrents[:yts].each do |torrent| %>
+            <div class="d-flex flex-row">
+              <%= link_to download_path(torrent[:id]), class: "torrent-link d-flex w-100 #{('mr-3' if torrent.ready)}", method: :post do %>
+                <div id="dlbar-<%= torrent.id %>" class="dlbar d-flex flex-row w-100">
+                  <%= render "dlbar", title: @result[:details]['title'], torrent: torrent %>
+                  <!-- DLrefreshedadded by JS, see refresh_part.js.erb and _dlbar.html.erb -->
+                </div>
+              <% end %>
+              <div id="playbtn-<%= torrent.id %>" class="playbtn d-flex flex-row">
+                <%= render "playbtn", torrent: torrent %>
+                <!-- Play burefreshedadded by JS, see refresh_part.js.erb and _playbtn.html.erb -->
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @sorted_torrents[:ptime].size > 0 %>
+        <div class="w100 torrent-source">
+          <dt>PopcornTime</dt>
+          <% @sorted_torrents[:ptime].each do |torrent| %>
+            <div class="d-flex flex-row">
+              <%= link_to download_path(torrent[:id]), class: "torrent-link d-flex w-100 #{('mr-3' if torrent.ready)}", method: :post do %>
+                <div id="dlbar-<%= torrent.id %>" class="dlbar d-flex flex-row w-100">
+                  <%= render "dlbar", title: @result[:details]['title'], torrent: torrent %>
+                  <!-- DLrefreshedadded by JS, see refresh_part.js.erb and _dlbar.html.erb -->
+                </div>
+              <% end %>
+              <div id="playbtn-<%= torrent.id %>" class="playbtn">
+                <%= render "playbtn", torrent: torrent %>
+                <!-- Play button refreshed by JS, see refresh_part.js.erb and _playbtn.html.erb -->
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<%= form_with(model: torrent, local: true) do |form| %>
+  <% if torrent.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(torrent.errors.count, "error") %> prohibited this torrent from being saved:</h2>
+
+      <ul>
+      <% torrent.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :movie_id %>
+    <%= form.text_field :movie_id, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :source %>
+    <%= form.text_field :source, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :magnet %>
+    <%= form.text_field :magnet, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :size %>
+    <%= form.number_field :size, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stored %>
+    <%= form.text_field :stored, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stored_name %>
+    <%= form.text_field :stored_name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <% if torrent.persisted? %>
+      <div class="float-right">
+        <%= link_to 'Destroy', torrent, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if torrent.persisted? %>
+      <%= link_to "Cancel", torrent, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", torrents_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

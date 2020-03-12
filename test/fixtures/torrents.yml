@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  movie: one
+  source: MyString
+  magnet: MyString
+  size: 1
+  stored: 
+  stored_name: MyString
+
+two:
+  movie: two
+  source: MyString
+  magnet: MyString
+  size: 1
+  stored: 
+  stored_name: MyString

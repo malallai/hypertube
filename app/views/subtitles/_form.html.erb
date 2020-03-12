@@ -1,0 +1,49 @@
+<%= form_with(model: subtitle, local: true) do |form| %>
+  <% if subtitle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(subtitle.errors.count, "error") %> prohibited this subtitle from being saved:</h2>
+
+      <ul>
+      <% subtitle.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :movie_id %>
+    <%= form.text_field :movie_id, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :lang %>
+    <%= form.text_field :lang, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stored_path %>
+    <%= form.text_field :stored_path, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stored %>
+    <%= form.check_box :stored, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <% if subtitle.persisted? %>
+      <div class="float-right">
+        <%= link_to 'Destroy', subtitle, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if subtitle.persisted? %>
+      <%= link_to "Cancel", subtitle, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", subtitles_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

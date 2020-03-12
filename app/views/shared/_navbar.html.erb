@@ -1,0 +1,58 @@
+<% if user_masquerade? %>
+  <div class="alert alert-warning text-center">
+    You're logged in as <b><%= current_user.name %> (<%= current_user.email %>)</b>
+    <%= link_to back_masquerade_path(current_user) do %><%= icon("fas", "times") %> Logout <% end %>
+  </div>
+<% end %>
+
+<nav class="navbar navbar-expand-md navbar-hyper-dark bg-hyper-dark">
+  <div class="container">
+    <%= link_to Rails.configuration.application_name, root_path, class: "navbar-brand" %>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+      </ul>
+
+      <ul class="navbar-nav">
+        <% if user_signed_in? && current_user.admin %>
+          <li class="nav-item">
+            <%= link_to "Refresh Torrents", '/workers', class: 'nav-link', remote: true, :method => :post %>
+          <li class="nav-item">
+        <% end %>
+        <% locale = session[:locale].nil? ? I18n.locale : session[:locale] %>
+        <li class="nav-item">
+          <%= link_to :en, '#', class: locale == :en ? 'nav-link locale-select locale-selected' : 'nav-link locale-select' %>
+          <%= link_to :fr, '#', class: locale == :fr ? 'nav-link locale-select locale-selected' : 'nav-link locale-select' %>
+        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <%= link_to "#", id: "navbar-dropdown", class: "nav-link dropdown-toggle", data: { target: "nav-account-dropdown", toggle: "dropdown" }, aria: { haspopup: true, expanded: false } do %>
+              <% if current_user.avatar_attachment %>
+                <%= image_tag current_user.avatar, height: 20, width: 20, class: "rounded" %>
+              <% else %>
+                <%= image_tag gravatar_image_url(current_user.email, size: 40), height: 20, width: 20, class: "rounded" %>
+              <% end %>
+            <% end %>
+            <div id="nav-account-dropdown" class="dropdown-menu dropdown-menu-right bg-hyper-dark" aria-labelledby="navbar-dropdown">
+              <% if current_user.admin? %>
+                <%= link_to "Admin Area", admin_root_path, class: "dropdown-item" %>
+              <% end %>
+              <%= link_to t('navbar.profile'), account_url(current_user), class: "dropdown-item" %>
+              <%= link_to t('navbar.settings'), edit_user_registration_path, class: "dropdown-item" %>
+              <div class="dropdown-divider"></div>
+              <%= link_to t('navbar.logout'), destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+            </div>
+          </li>
+
+        <% else %>
+          <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Login", new_user_session_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

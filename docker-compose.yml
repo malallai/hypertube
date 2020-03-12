@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: hypertube
+      MYSQL_DATABASE: hypertube
+      MYSQL_USER: hypertube
+      MYSQL_PASSWORD: hypertube
+
+  qbit:
+    image: linuxserver/qbittorrent
+    environment:
+      - TZ=Europe/Paris
+      - UMASK_SET=022
+      - WEBUI_PORT=6880
+    volumes:
+      - qbit_config:/config
+      - qbit_downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 6880:6880
+
+  redis:
+    image: redis:rc
+
+  web:
+    build: .
+    image: alexandregv/hypertube-web
+#    command: sh -c 'bundle exec rake db:create db:migrate; yarn install; bundle install; foreman start -f Procfile.dev'
+    command: sh -c 'yarn install; bundle install; bundle exec rake webpacker:compile assets:precompile db:create db:migrate; foreman start -f Procfile'
+    volumes:
+      - .:/app
+      - mysql_data:/var/lib/mysql
+      - qbit_downloads:/downloads
+    environment:
+      - "BUNDLE_PATH=/usr/local/bundle"
+      - "REDIS_URL=redis://redis:6379"
+      - "RAILS_ENV=production"
+      - "RAILS_LOG_TO_STDOUT=true"
+      - "RAILS_SERVE_STATIC_FILES=true"
+    ports:
+      - 5000:5000
+      - 3035:3035
+      - 6060:8080
+    depends_on:
+     - db
+     - qbit
+     - redis
+    stdin_open: true
+    tty: true
+
+volumes:
+  mysql_data:
+  qbit_config:
+  qbit_downloads:

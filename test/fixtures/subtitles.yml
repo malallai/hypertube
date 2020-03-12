@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  movie: one
+  lang: MyString
+  stored_path: MyString
+  stored: false
+
+two:
+  movie: two
+  lang: MyString
+  stored_path: MyString
+  stored: false

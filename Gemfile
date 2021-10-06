@@ -73,7 +73,7 @@ gem 'name_of_person', '~> 1.1'
 gem 'omniauth-oauth2', path: 'gems/omniauth-oauth2'
 gem 'omniauth-discord'
 gem 'omniauth-marvin'
-gem 'sidekiq', '~> 6.0', '>= 6.0.3'
+gem 'sidekiq', '~> 6.2'
 gem 'sitemap_generator', '~> 6.0', '>= 6.0.1'
 gem 'whenever', require: false
 gem 'figaro'
